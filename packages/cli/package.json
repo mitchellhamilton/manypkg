@@ -23,7 +23,7 @@
     "package-json": "^8.1.0",
     "parse-github-url": "^1.0.2",
     "sembear": "^0.5.0",
-    "semver": "^6.3.0",
+    "semver": "^6.3.1",
     "spawndamnit": "^2.0.0",
     "validate-npm-package-name": "^3.0.0"
   },
