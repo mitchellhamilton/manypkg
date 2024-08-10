@@ -1,6 +1,7 @@
 import path from "path";
 import * as logger from "./logger";
 import { getPackages, Packages, Package } from "@manypkg/get-packages";
+import { PM, detect as detectPackageManager } from "detect-package-manager";
 import { Options } from "./checks/utils";
 import { checks } from "./checks";
 import { ExitError } from "./errors";
@@ -146,6 +147,9 @@ async function execCmd(args: string[]) {
     shouldFix,
     options
   );
+  const packageManager: PM = await detectPackageManager({
+    cwd: rootDir,
+  }).catch(() => "yarn");
   if (shouldFix) {
     await Promise.all(
       [...packagesByName].map(async ([pkgName, workspace]) => {
@@ -158,7 +162,9 @@ async function execCmd(args: string[]) {
 
     logger.success(`fixed workspaces!`);
   } else if (hasErrored) {
-    logger.info(`the above errors may be fixable with yarn manypkg fix`);
+    logger.info(
+      `the above errors may be fixable with ${packageManager} manypkg fix`
+    );
     throw new ExitError(1);
   } else {
     logger.success(`workspaces valid!`);
