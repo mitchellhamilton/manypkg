@@ -9,9 +9,9 @@
   "license": "MIT",
   "main": "dist/manypkg-tools.cjs.js",
   "dependencies": {
-    "fast-glob": "^3.3.2",
     "jju": "^1.4.0",
-    "js-yaml": "^4.1.0"
+    "js-yaml": "^4.1.0",
+    "tinyglobby": "^0.2.9"
   },
   "devDependencies": {
     "@types/jju": "^1.4.2",

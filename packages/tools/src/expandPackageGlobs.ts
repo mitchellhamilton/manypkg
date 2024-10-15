@@ -1,6 +1,6 @@
 import path from "path";
 import fsp from "fs/promises";
-import glob from "fast-glob";
+import { glob, globSync } from "tinyglobby";
 
 import { Package, PackageJSON } from "./Tool";
 import { readJsonSync } from "./utils";
@@ -18,6 +18,7 @@ export async function expandPackageGlobs(
     cwd: directory,
     onlyDirectories: true,
     ignore: ["**/node_modules"],
+    expandDirectories: false,
   });
   const directories = relativeDirectories
     .map((p) => path.resolve(directory, p))
@@ -55,10 +56,11 @@ export function expandPackageGlobsSync(
   packageGlobs: string[],
   directory: string
 ): Package[] {
-  const relativeDirectories: string[] = glob.sync(packageGlobs, {
+  const relativeDirectories: string[] = globSync(packageGlobs, {
     cwd: directory,
     onlyDirectories: true,
     ignore: ["**/node_modules"],
+    expandDirectories: false,
   });
   const directories = relativeDirectories
     .map((p) => path.resolve(directory, p))
