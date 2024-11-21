@@ -1,6 +1,7 @@
 import {
   makeCheck,
   getMostCommonRangeMap,
+  getClosestAllowedRange,
   NORMAL_DEPENDENCY_TYPES,
 } from "./utils";
 import { Package } from "@manypkg/get-packages";
@@ -15,7 +16,7 @@ type ErrorType = {
 };
 
 export default makeCheck<ErrorType>({
-  validate: (workspace, allWorkspace) => {
+  validate: (workspace, allWorkspace, rootWorkspace, options) => {
     let errors: ErrorType[] = [];
     let mostCommonRangeMap = getMostCommonRangeMap(allWorkspace);
     for (let depType of NORMAL_DEPENDENCY_TYPES) {
@@ -25,9 +26,13 @@ export default makeCheck<ErrorType>({
         for (let depName in deps) {
           let range = deps[depName];
           let mostCommonRange = mostCommonRangeMap.get(depName);
+          const allowedVersions =
+            options.allowedDependencyVersions &&
+            options.allowedDependencyVersions[depName];
           if (
             mostCommonRange !== undefined &&
             mostCommonRange !== range &&
+            !(allowedVersions && allowedVersions.includes(range)) &&
             validRange(range)
           ) {
             errors.push({
@@ -35,7 +40,9 @@ export default makeCheck<ErrorType>({
               workspace,
               dependencyName: depName,
               dependencyRange: range,
-              mostCommonDependencyRange: mostCommonRange,
+              mostCommonDependencyRange: allowedVersions
+                ? getClosestAllowedRange(range, allowedVersions)
+                : mostCommonRange,
             });
           }
         }
