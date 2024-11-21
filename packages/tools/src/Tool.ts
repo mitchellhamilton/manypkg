@@ -97,7 +97,7 @@ export interface MonorepoRoot {
   /**
    * The underlying tool implementation for this monorepo.
    */
-  tool: Tool;
+  tool: string;
 }
 
 /**

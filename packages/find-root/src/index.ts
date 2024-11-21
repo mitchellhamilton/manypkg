@@ -20,7 +20,7 @@ import {
  * monorepo implementations first, with tools based on custom file schemas
  * checked last.
  */
-const DEFAULT_TOOLS: Tool[] = [
+export const DEFAULT_TOOLS: Tool[] = [
   YarnTool,
   PnpmTool,
   LernaTool,
@@ -83,7 +83,7 @@ export async function findRoot(
       tools.map(async (tool): Promise<MonorepoRoot | undefined> => {
         if (await tool.isMonorepoRoot(directory)) {
           return {
-            tool: tool,
+            tool: tool.type,
             rootDir: directory,
           };
         }
@@ -125,7 +125,7 @@ export async function findRoot(
   }
 
   return {
-    tool: RootTool,
+    tool: RootTool.type,
     rootDir,
   };
 }
@@ -144,7 +144,7 @@ export function findRootSync(
     for (const tool of tools) {
       if (tool.isMonorepoRootSync(directory)) {
         monorepoRoot = {
-          tool: tool,
+          tool: tool.type,
           rootDir: directory,
         };
         return directory;
@@ -173,7 +173,7 @@ export function findRootSync(
   }
 
   return {
-    tool: RootTool,
+    tool: RootTool.type,
     rootDir,
   };
 }

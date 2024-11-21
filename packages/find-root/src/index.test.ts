@@ -15,7 +15,7 @@ const runTests = (findRoot: FindRoot) => {
       path.join(tmpPath, "packages", "package-one", "src")
     );
     expect(monorepoRoot).toEqual({
-      tool: YarnTool,
+      tool: YarnTool.type,
       rootDir: tmpPath,
     });
   });
@@ -26,7 +26,7 @@ const runTests = (findRoot: FindRoot) => {
       path.join(tmpPath, "packages", "package-one", "src")
     );
     expect(monorepoRoot).toEqual({
-      tool: LernaTool,
+      tool: LernaTool.type,
       rootDir: tmpPath,
     });
   });
@@ -40,7 +40,7 @@ const runTests = (findRoot: FindRoot) => {
       path.join(tmpPath, "packages", "package-one", "src")
     );
     expect(monorepoRoot).toEqual({
-      tool: YarnTool,
+      tool: YarnTool.type,
       rootDir: tmpPath,
     });
   });
@@ -51,7 +51,7 @@ const runTests = (findRoot: FindRoot) => {
       path.join(tmpPath, "packages", "package-one", "src")
     );
     expect(monorepoRoot).toEqual({
-      tool: PnpmTool,
+      tool: PnpmTool.type,
       rootDir: tmpPath,
     });
   });
@@ -60,7 +60,7 @@ const runTests = (findRoot: FindRoot) => {
     let tmpPath = f.copy("single-pkg");
     let monorepoRoot = await findRoot(path.join(tmpPath, "src"));
     expect(monorepoRoot).toEqual({
-      tool: RootTool,
+      tool: RootTool.type,
       rootDir: tmpPath,
     });
   });
